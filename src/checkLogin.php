@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <?php
+<?php
         header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Headers: *");
         $rest_json = file_get_contents("php://input");
         $_POST = json_decode($rest_json, true);
 
@@ -28,7 +20,7 @@
             if($kobling->connect_error) {
                 die("Noe gikk galt: " . $kobling->connect_error);
             } else {
-                echo "Koblingen virker.<br>";
+                // echo "Koblingen virker.<br>";
             }
 
             // Angi UTF-8 som tegnsett
@@ -47,27 +39,27 @@
                 $passwordServer = $rad["password"];
 
                 if($usernameInput != $usernameServer) {
-                    echo "brukeren finnes ikke";
+                    echo json_decode(["message" => "brukeren finnes ikke"]);
                     exit;
                 }
 
                 if ($passordInput == $passwordServer) {
-                    header("Location: http://localhost:3000/Home");
+                    // header("Location: http://localhost:3000/Home");
+                    // echo "riktig passord";
+                    echo json_encode([
+                    "sent" => true,
+                ]);
                     exit;
                 }
 
-                echo "feil passord";
-
-                // echo json_encode( $_POST );
-                echojson_encode(array(
-                    "sent" => true
-                ));
+                echo json_decode(["feil passord"]);
             }
         }
         else {
             // tell the user about error
-            echojson_encode(["sent" => false, "message" => "Something went wrong"]);
+            echo json_encode([
+                "sent" => false,
+                "message" => "Something went wrong"
+            ]);
         }
-    ?>
-</body>
-</html>
+?>

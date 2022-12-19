@@ -1,14 +1,17 @@
+import { renderIntoDocument } from 'react-dom/test-utils';
 import { useSelector, useDispatch } from 'react-redux'
-import { setUser } from "./userSlice"
+import { setUsername } from "./userSlice";
 
 const User = () => {
     const username = useSelector((state) => state.user.username)
-    const dispatch = useDispatch()
-    return (
-        <section>
-            <h1>Your username is: {username}</h1>
-        </section>
-    )
+    return username
 }
+
+const SetUser = (username) => {
+    const dispatch = useDispatch()
+    dispatch(setUsername(username))
+}
+
+export {SetUser}
 
 export default User
